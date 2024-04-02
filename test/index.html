@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de test API</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1></h1>
+<form id="createAdminForm">
+    <input type="text" id="adminUsername" name="utilisateur" placeholder="Nom d'utilisateur" required>
+    <input type="password" id="adminPassword" name="password" placeholder="Mot de passe" required>
+    <input type="text" id="adminName" name="nom" placeholder="Nom" required>
+    <input type="text" id="adminSurname" name="prenom" placeholder="Prénom" required>
+    <input type="email" id="adminEmail" name="mail" placeholder="Adresse email" required>
+    <input type="submit" value="Créer un compte administrateur">
+</form>
+
+<h1></h1>
+<form id="createUserForm">
+    <input type="text" id="userUsername" name="utilisateur" placeholder="Nom d'utilisateur" required>
+    <input type="password" id="userPassword" name="password" placeholder="Mot de passe" required>
+    <input type="text" id="userName" name="nom" placeholder="Nom" required>
+    <input type="text" id="userSurname" name="prenom" placeholder="Prénom" required>
+    <input type="email" id="userEmail" name="mail" placeholder="Adresse email" required>
+    <input type="text" id="userStatus" name="status" placeholder="Statut" required>
+    <input type="submit" value="Créer un compte utilisateur">
+</form>
+
+<h1></h1>
+<form id="adminLoginForm">
+    <input type="text" id="adminLoginUsername" name="utilisateur" placeholder="Nom d'utilisateur" required>
+    <input type="password" id="adminLoginPassword" name="password" placeholder="Mot de passe" required>
+    <input type="submit" value="Se connecter en tant qu'administrateur">
+</form>
+
+<h1></h1>
+<form id="userLoginForm">
+    <input type="text" id="userLoginUsername" name="utilisateur" placeholder="Nom d'utilisateur" required>
+    <input type="password" id="userLoginPassword" name="password" placeholder="Mot de passe" required>
+    <input type="submit" value="Se connecter en tant qu'utilisateur">
+</form>
+
+<h1></h1>
+<form id="addPlateForm">
+    <input type="text" id="plateNumber" name="numeroPlaque" placeholder="Numéro de plaque" required>
+    <input type="text" id="plateUser" name="utilisateur" placeholder="Nom d'utilisateur" required>
+    <input type="submit" value="Ajouter une plaque">
+</form>
+
+<h1></h1>
+<form id="deletePlateForm">
+    <input type="text" id="deletePlateNumber" name="numeroPlaque" placeholder="Numéro de plaque" required>
+    <input type="submit" value="Supprimer une plaque">
+</form>
+
+<h1></h1>
+<form id="blockPlateForm">
+    <input type="text" id="blockPlateNumber" name="numeroPlaque" placeholder="Numéro de plaque" required>
+    <input type="submit" value="Bloquer une plaque">
+</form>
+
+<h1></h1>
+<form id="unblockPlateForm">
+    <input type="text" id="unblockPlateNumber" name="numeroPlaque" placeholder="Numéro de plaque" required>
+    <input type="submit" value="Débloquer une plaque">
+</form>
+
+<h1></h1>
+<form id="deleteAdminForm">
+    <input type="text" id="deleteAdminUsername" name="utilisateur" placeholder="Nom d'utilisateur de l'administrateur à supprimer" required>
+    <input type="submit" value="Supprimer l'administrateur">
+</form>
+
+<button id="fetchAdminsBtn">Afficher les administrateurs</button>
+<div id="adminData"></div>
+
+<button id="downloadCSVBtn">Télécharger CSV</button>
+<button id="downloadBlockedCSVBtn">Télécharger CSV non autorisé</button>
+
+
+<div id="data"></div>
+
+<div id="response"></div>
+
+
+
+<script>
+    // Fonction pour envoyer une requête à l'API et afficher la réponse
+    function sendRequest(form, action) {
+        event.preventDefault();
+
+        let formData = new FormData(form);
+        formData.append('action', action);
+
+        fetch('API.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                let responseDiv = document.getElementById("response");
+                responseDiv.style.display = "block";
+                if (data.success) {
+                    responseDiv.style.color = "green";
+                    if (typeof data.message === 'object') {
+                        responseDiv.innerHTML = data.message.message;
+                    } else {
+                        responseDiv.innerHTML = data.message;
+                    }
+                } else {
+                    responseDiv.style.color = "red";
+                    if (typeof data.message === 'object') {
+                        responseDiv.innerHTML = data.message.message;
+                    } else {
+                        responseDiv.innerHTML = data.message;
+                    }
+                }
+            })
+            .catch(error => console.error('Erreur:', error));
+    }
+
+    // Écouter les soumissions de formulaire pour chaque formulaire
+    document.getElementById("createAdminForm").addEventListener("submit", function(event) {
+        sendRequest(this, 'creation_administrateur');
+    });
+
+    document.getElementById("createUserForm").addEventListener("submit", function(event) {
+        sendRequest(this, 'creation_utilisateur');
+    });
+
+    document.getElementById("adminLoginForm").addEventListener("submit", function(event) {
+        sendRequest(this, 'connexion_administrateur');
+    });
+
+    document.getElementById("userLoginForm").addEventListener("submit", function(event) {
+        sendRequest(this, 'connexion_utilisateur');
+    });
+
+    document.getElementById("addPlateForm").addEventListener("submit", function(event) {
+        sendRequest(this, 'ajouter_plaque');
+    });
+
+    document.getElementById("deletePlateForm").addEventListener("submit", function(event) {
+        sendRequest(this, 'supprimer_plaque');
+    });
+
+    document.getElementById("blockPlateForm").addEventListener("submit", function(event) {
+        sendRequest(this, 'bloquer_plaque');
+    });
+
+    document.getElementById("unblockPlateForm").addEventListener("submit", function(event) {
+        sendRequest(this, 'debloquer_plaque');
+    });
+
+    document.getElementById("deleteAdminForm").addEventListener("submit", function(event) {
+        sendRequest(this, 'supprimer_administrateur');
+    });
+
+    document.getElementById("downloadCSVBtn").addEventListener("click", function() {
+        window.location.href = "API.php?action=export_csv";
+    });
+
+    document.getElementById("downloadBlockedCSVBtn").addEventListener("click", function() {
+        window.location.href = "API.php?action=export_non_autorise_csv";
+    });
+
+</script>
+
+<script>
+    // Fonction pour afficher les administrateurs
+    function fetchAdmins() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "API.php?action=afficher_administrateur", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var admins = JSON.parse(xhr.responseText);
+                var adminDataDiv = document.getElementById("adminData");
+                adminDataDiv.innerHTML = "<h2>Administrateurs</h2>";
+                // Création du tableau
+                var table = document.createElement("table");
+                table.border = "1";
+                // Création de l'en-tête du tableau
+                var headerRow = table.insertRow();
+                Object.keys(admins[0]).forEach(function(key) {
+                    var headerCell = document.createElement("th");
+                    headerCell.textContent = key;
+                    headerRow.appendChild(headerCell);
+                });
+                // Remplissage des données dans le tableau
+                admins.forEach(function(admin) {
+                    var row = table.insertRow();
+                    Object.values(admin).forEach(function(value) {
+                        var cell = row.insertCell();
+                        cell.textContent = value;
+                    });
+                });
+                adminDataDiv.appendChild(table);
+            }
+        };
+        xhr.send();
+    }
+
+    // Écouteur d'événement pour le clic sur le bouton
+    document.getElementById("fetchAdminsBtn").addEventListener("click", function() {
+        fetchAdmins();
+    });
+</script>
+
+<script>
+    // Récupérer l'URL actuelle
+    var url = window.location.href;
+
+    // Vérifier si l'URL contient des paramètres de requête
+    if (url.indexOf('?') !== -1) {
+        // Supprimer les paramètres de requête
+        var cleanUrl = url.split('?')[0];
+
+        // Rediriger vers l'URL propre
+        window.location.replace(cleanUrl);
+    } else if (url.indexOf('index.html') !== -1) {
+        // Supprimer "index.html" de l'URL
+        var cleanUrl = url.replace(/\/index\.html$/, '/');
+
+        // Rediriger vers l'URL propre
+        window.location.replace(cleanUrl);
+    }
+
+</script>
+</body>
+</html>
+

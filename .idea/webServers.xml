@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="55cbb07a-cf0c-42b1-85c4-d2ec0d856557" name="OVH" url="http://51.210.151.13/btssnir/projets2024/easyportal2024/.api">
+        <fileTransfer rootFolder="/home/easyportal2024/.api" accessType="SFTP" host="51.210.151.13" port="22" sshConfigId="fd15a2b0-715e-46be-b4d1-2421fbe2211f" sshConfig="easyportal2024@51.210.151.13:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

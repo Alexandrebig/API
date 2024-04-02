@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test creation utilisateur</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>test creation utilisateur</h1>
+<form id="loginForm" action="creation_utilisateur.php" method="post">
+    <label for="utilisateur">Nom d'utilisateur:</label><br>
+    <input type="text" id="utilisateur" name="utilisateur"><br>
+    <label for="password">Mot de passe:</label><br>
+    <input type="password" id="password" name="password"><br>
+    <label for="nom">Nom:</label><br>
+    <input type="text" id="nom" name="nom"><br>
+    <label for="prenom">Prénom:</label><br>
+    <input type="text" id="prenom" name="prenom"><br>
+    <label for="mail">E-mail:</label><br>
+    <input type="email" id="mail" name="mail"><br>
+    <label for="status">Statut:</label><br>
+    <select id="status" name="status">
+        <option value="totale">Totale</option>
+        <option value="reduit">Reduit</option>
+    </select><br><br>
+    <input type="submit" value="Créer un compte">
+</form>
+
+<div id="response"></div>
+
+<script src="script.js"></script>
+<script src="url.js"></script>
+</body>
+</html>

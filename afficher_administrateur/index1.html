@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Affichage des données</title>
+</head>
+<body>
+<h1>Données de la base de données</h1>
+<div id="data"></div>
+
+<script>
+  // Requête AJAX pour récupérer les données de l'API
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "afficher_administrateur.php", true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      var data = JSON.parse(xhr.responseText);
+      var dataDiv = document.getElementById("data");
+      data.forEach(function(row) {
+        var rowDiv = document.createElement("div");
+        rowDiv.textContent = JSON.stringify(row);
+        dataDiv.appendChild(rowDiv);
+      });
+    }
+  };
+  xhr.send();
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+connexion :
+
+connexion_administrateur : ✔
+connexion_utilisateur : ✔
+
+creation :
+
+creation_administrateur : ✔
+creation_utilisateur : ✔
+
+CSV : à faire
+
+plaque : 
+
+ajouter_plaque : ✔
+bloquer_plaque : ✔
+debloquer_plaque : ✔
+supprimer_plaque : ✔
+
+Amélioration de l'url
+
+supprimer les paramètres : ✔
+supprimer "index.html" : ✔
+
