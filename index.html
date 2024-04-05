@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API</title>
+</head>
+<body>
+<h1>Test de l'API</h1>
+
+<h2>Connexion Administrateur</h2>
+<form id="connexion_admin_form">
+    Utilisateur: <input type="text" name="utilisateur" required><br>
+    Mot de passe: <input type="password" name="password" required><br>
+    <input type="submit" value="Connexion">
+</form>
+<div id="connexion_admin_result"></div>
+
+<h2>Connexion Utilisateur</h2>
+<form id="connexion_utilisateur_form">
+    Utilisateur: <input type="text" name="utilisateur" required><br>
+    Mot de passe: <input type="password" name="password" required><br>
+    <input type="submit" value="Connexion">
+</form>
+<div id="connexion_utilisateur_result"></div>
+
+<h2>Création Administrateur</h2>
+<form id="creation_admin_form" method="POST">
+    Utilisateur: <input type="text" name="utilisateur" required><br>
+    Mot de passe: <input type="password" name="password" required><br>
+    Nom: <input type="text" name="nom" required><br>
+    Prénom: <input type="text" name="prenom" required><br>
+    Mail: <input type="email" name="mail" required><br>
+    <input type="submit" value="Créer Administrateur">
+</form>
+<div id="creation_admin_result"></div>
+
+<h2>Création Utilisateur</h2>
+<form id="creation_utilisateur_form" method="POST">
+    Utilisateur: <input type="text" name="utilisateur" required><br>
+    Mot de passe: <input type="password" name="password" required><br>
+    Nom: <input type="text" name="nom" required><br>
+    Prénom: <input type="text" name="prenom" required><br>
+    Mail: <input type="email" name="mail" required><br>
+    <input type="submit" value="Créer Utilisateur">
+</form>
+<div id="creation_utilisateur_result"></div>
+
+<h2>Ajouter Plaque</h2>
+<form id="ajouter_plaque_form">
+    Utilisateur: <input type="text" name="utilisateur" required><br>
+    Numéro de Plaque: <input type="text" name="numeroPlaque" required><br>
+    <input type="submit" value="Ajouter Plaque">
+</form>
+<div id="ajouter_plaque_result"></div>
+
+<h2>Supprimer Plaque</h2>
+<form id="supprimer_plaque_form">
+    Numéro de Plaque: <input type="text" name="numeroPlaque" required><br>
+    <input type="submit" value="Supprimer Plaque">
+</form>
+<div id="supprimer_plaque_result"></div>
+
+<h2>Bloquer Plaque</h2>
+<form id="bloquer_plaque_form">
+    Numéro de Plaque: <input type="text" name="numeroPlaque" required><br>
+    <input type="submit" value="Bloquer Plaque">
+</form>
+<div id="bloquer_plaque_result"></div>
+
+<h2>Débloquer Plaque</h2>
+<form id="debloquer_plaque_form">
+    Numéro de Plaque: <input type="text" name="numeroPlaque" required><br>
+    <input type="submit" value="Débloquer Plaque">
+</form>
+<div id="debloquer_plaque_result"></div>
+
+<script>
+    document.getElementById('connexion_admin_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var form = this;
+        var formData = new URLSearchParams(new FormData(form));
+
+        fetch('API.php?action=connexion_administrateur&' + formData.toString(), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('connexion_admin_result').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    document.getElementById('connexion_utilisateur_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var form = this;
+        var formData = new URLSearchParams(new FormData(form));
+
+        fetch('API.php?action=connexion_utilisateur&' + formData.toString(), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('connexion_utilisateur_result').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    document.getElementById('creation_admin_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var form = this;
+        var formData = new URLSearchParams(new FormData(form));
+
+        fetch('API.php?action=creation_administrateur', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('creation_admin_result').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    document.getElementById('creation_utilisateur_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var form = this;
+        var formData = new URLSearchParams(new FormData(form));
+
+        fetch('API.php?action=creation_utilisateur', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('creation_utilisateur_result').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    // Fonction pour gérer l'ajout de plaque
+    document.getElementById('ajouter_plaque_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var form = this;
+        var formData = new URLSearchParams(new FormData(form));
+
+        fetch('API.php?action=ajouter_plaque&' + formData.toString(), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ajouter_plaque_result').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    // Fonction pour gérer la suppression de plaque
+    document.getElementById('supprimer_plaque_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var form = this;
+        var formData = new URLSearchParams(new FormData(form));
+
+        fetch('API.php?action=supprimer_plaque', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('supprimer_plaque_result').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    // Fonction pour gérer le blocage de plaque
+    document.getElementById('bloquer_plaque_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var form = this;
+        var formData = new URLSearchParams(new FormData(form));
+
+        fetch('API.php?action=bloquer_plaque', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('bloquer_plaque_result').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
+    // Fonction pour gérer le déblocage de plaque
+    document.getElementById('debloquer_plaque_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        var form = this;
+        var formData = new URLSearchParams(new FormData(form));
+
+        fetch('API.php?action=debloquer_plaque', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('debloquer_plaque_result').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
+</body>
+</html>
